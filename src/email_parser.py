@@ -19,6 +19,14 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
+def _clean_address(addr) -> str:
+    """Clean mail-parser tuple format to plain email string."""
+    if not addr:
+        return ""
+    if isinstance(addr, list) and len(addr) > 0:
+        name, email = addr[0] if isinstance(addr[0], tuple) else ("", addr[0])
+        return email if not name else f"{name} <{email}>"
+    return str(addr)
 
 def parse_email(filepath: str) -> dict:
     """
@@ -46,11 +54,11 @@ def parse_email(filepath: str) -> dict:
 
     # --- Basic headers ---
     result["headers"] = {
-        "from": str(mail.from_),
-        "to": str(mail.to),
+        "from": _clean_address(mail.from_),
+        "to": _clean_address(mail.to),
         "subject": mail.subject or "",
         "date": str(mail.date),
-        "reply_to": str(mail.reply_to) if mail.reply_to else None,
+        "reply_to": _clean_address(mail.reply_to) if mail.reply_to else None,
         "message_id": mail.message_id or "",
         "x_mailer": mail.headers.get("X-Mailer", None)
     }
