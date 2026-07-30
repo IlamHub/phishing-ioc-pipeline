@@ -1,0 +1,20 @@
+api_keys:
+  virustotal: "YOUR_VT_KEY_HERE"
+  abuseipdb: "YOUR_ABUSEIPDB_KEY_HERE"
+  urlscan: "YOUR_URLSCAN_KEY_HERE"
+
+thresholds:
+  vt_malicious_engines: 3
+  abuseipdb_confidence: 25
+  domain_age_suspicious_days: 30
+
+elasticsearch:
+  host: "localhost"
+  port: 9200
+  index: "phishing-iocs"
+
+suricata:
+  rules_output: "/var/lib/suricata/rules/phishing-generated.rules"
+
+reports:
+  output_dir: "reports/"

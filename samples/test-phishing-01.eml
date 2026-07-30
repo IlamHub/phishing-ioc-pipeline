@@ -1,0 +1,30 @@
+From: security-alert@micros0ft-verify.com
+To: ilam@company.com
+Subject: [URGENT] Your Microsoft Account Will Be Suspended in 24 Hours
+Date: Mon, 13 Jul 2026 09:23:11 +0000
+Message-ID: <fake123@micros0ft-verify.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Received: from mail.micros0ft-verify.com (192.168.100.50) by 
+ mx.company.com with SMTP; Mon, 13 Jul 2026 09:23:11 +0000
+Received: from attacker-server.ru (attacker-server.ru [185.220.101.45])
+ by mail.micros0ft-verify.com; Mon, 13 Jul 2026 09:23:09 +0000
+Authentication-Results: mx.company.com;
+ dkim=fail (signature verification failed);
+ spf=fail (domain micros0ft-verify.com does not designate 185.220.101.45 as permitted sender);
+ dmarc=fail
+Reply-To: harvester@evil-collect.com
+X-Mailer: PhishKit/2.0
+
+<html>
+<body>
+<p>Dear User,</p>
+<p>We have detected suspicious activity on your Microsoft account.</p>
+<p>Please verify your account immediately to avoid suspension:</p>
+<p><a href="http://micros0ft-login-verify.tk/secure/login?ref=urgent">
+Click here to verify your account
+</a></p>
+<p>If you do not verify within 24 hours your account will be permanently suspended.</p>
+<p>Microsoft Security Team</p>
+</body>
+</html>
