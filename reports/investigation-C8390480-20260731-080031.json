@@ -1,0 +1,11 @@
+{
+  "investigation_id": "C8390480",
+  "timestamp": "2026-07-31T08:00:31.758525+00:00",
+  "email_file": "../samples/test-phishing-03.eml",
+  "parsed_email": {},
+  "ioc_results": [],
+  "scored_iocs": [],
+  "malicious_iocs": [],
+  "suspicious_iocs": [],
+  "summary": {}
+}

@@ -1,0 +1,20 @@
+From: noreply@dh1-delivery.com
+To: ilam@company.com
+Subject: Your DHL Package Cannot Be Delivered - Action Required
+Date: Tue, 14 Jul 2026 08:30:00 +0000
+Message-ID: <fake789@dh1-delivery.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Received: from mail.dh1-delivery.com (31.220.4.134) by mx.company.com with SMTP
+Received: from bulk-mailer.tk (bulk-mailer.tk [91.108.56.130]) by mail.dh1-delivery.com
+Authentication-Results: mx.company.com;
+ dkim=fail;
+ spf=fail;
+ dmarc=fail
+
+<html><body>
+<p>Dear Customer,</p>
+<p>Your package could not be delivered. Pay EUR 1.99 shipping fee to reschedule.</p>
+<p><a href="http://dhl-redelivery-fee.tk/pay?id=PKG992821">Pay Now and Reschedule</a></p>
+<p>Package will be returned after 48 hours.</p>
+</body></html>

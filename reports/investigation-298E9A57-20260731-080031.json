@@ -1,0 +1,11 @@
+{
+  "investigation_id": "298E9A57",
+  "timestamp": "2026-07-31T08:00:31.606204+00:00",
+  "email_file": "../samples/test-phishing-02.eml",
+  "parsed_email": {},
+  "ioc_results": [],
+  "scored_iocs": [],
+  "malicious_iocs": [],
+  "suspicious_iocs": [],
+  "summary": {}
+}

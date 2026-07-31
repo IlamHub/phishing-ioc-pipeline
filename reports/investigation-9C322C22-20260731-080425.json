@@ -1,0 +1,129 @@
+{
+  "investigation_id": "9C322C22",
+  "timestamp": "2026-07-31T08:04:08.371047+00:00",
+  "email_file": "../samples/test-phishing-03.eml",
+  "parsed_email": {
+    "file": "../samples/test-phishing-03.eml",
+    "headers": {
+      "from": "noreply@dh1-delivery.com",
+      "to": "ilam@company.com",
+      "subject": "Your DHL Package Cannot Be Delivered - Action Required",
+      "date": "2026-07-14 08:30:00+00:00",
+      "reply_to": null,
+      "message_id": "<fake789@dh1-delivery.com>",
+      "x_mailer": null
+    },
+    "authentication": {
+      "spf": "fail",
+      "dkim": "fail",
+      "dmarc": "fail",
+      "raw": "mx.company.com;\n dkim=fail;\n spf=fail;\n dmarc=fail"
+    },
+    "originating_ip": "91.108.56.130",
+    "urls": [
+      "http://dhl-redelivery-fee.tk/pay?id=PKG992821"
+    ],
+    "attachments": [],
+    "flags": [
+      "SPF_FAIL",
+      "DKIM_FAIL",
+      "DMARC_FAIL"
+    ],
+    "raw_body": "<html><body>\n<p>Dear Customer,</p>\n<p>Your package could not be delivered. Pay EUR 1.99 shipping fee to reschedule.</p>\n<p><a href=\"http://dhl-redelivery-fee.tk/pay?id=PKG992821\">Pay Now and Reschedule</a></p>\n<p>Package will be returned after 48 hours.</p>\n</body></html>\n"
+  },
+  "ioc_results": [
+    {
+      "ioc": "91.108.56.130",
+      "type": "ip",
+      "source": "virustotal",
+      "malicious_count": 1,
+      "suspicious_count": 0,
+      "total_engines": 91,
+      "country": "SG",
+      "as_owner": "Telegram Messenger Inc",
+      "verdict": "suspicious"
+    },
+    {
+      "ioc": "91.108.56.130",
+      "type": "ip",
+      "source": "abuseipdb",
+      "confidence_score": 0,
+      "total_reports": 0,
+      "country": "SG",
+      "isp": "Telegram Messenger Network",
+      "domain": "telegram.org",
+      "is_tor": false,
+      "abuse_categories": [],
+      "verdict": "clean"
+    },
+    {
+      "ioc": "http://dhl-redelivery-fee.tk/pay?id=PKG992821",
+      "type": "url",
+      "source": "virustotal",
+      "malicious_count": 0,
+      "suspicious_count": 1,
+      "total_engines": 92,
+      "categories": {
+        "Forcepoint ThreatSeeker": "elevated exposure"
+      },
+      "verdict": "clean"
+    },
+    {
+      "error": "Invalid leading whitespace, reserved character(s), or return character(s) in header value: ' 019fb2dd-c4bb-7548-a922-8d442f262e9e'",
+      "ioc": "http://dhl-redelivery-fee.tk/pay?id=PKG992821",
+      "type": "url"
+    }
+  ],
+  "scored_iocs": [
+    {
+      "ioc": "91.108.56.130",
+      "type": "ip",
+      "confidence_score": 35,
+      "verdict": "SUSPICIOUS",
+      "contributing_factors": [
+        "VT: 1 engine(s) flagged",
+        "Email flag: SPF_FAIL",
+        "Email flag: DKIM_FAIL",
+        "Email flag: DMARC_FAIL"
+      ]
+    },
+    {
+      "ioc": "http://dhl-redelivery-fee.tk/pay?id=PKG992821",
+      "type": "url",
+      "confidence_score": 15,
+      "verdict": "CLEAN",
+      "contributing_factors": [
+        "Email flag: SPF_FAIL",
+        "Email flag: DKIM_FAIL",
+        "Email flag: DMARC_FAIL"
+      ]
+    }
+  ],
+  "malicious_iocs": [],
+  "suspicious_iocs": [
+    {
+      "ioc": "91.108.56.130",
+      "type": "ip",
+      "confidence_score": 35,
+      "verdict": "SUSPICIOUS",
+      "contributing_factors": [
+        "VT: 1 engine(s) flagged",
+        "Email flag: SPF_FAIL",
+        "Email flag: DKIM_FAIL",
+        "Email flag: DMARC_FAIL"
+      ]
+    }
+  ],
+  "summary": {
+    "overall_verdict": "SUSPICIOUS",
+    "total_iocs": 2,
+    "malicious_count": 0,
+    "suspicious_count": 1,
+    "clean_count": 1,
+    "flags": [
+      "SPF_FAIL",
+      "DKIM_FAIL",
+      "DMARC_FAIL"
+    ]
+  }
+}
