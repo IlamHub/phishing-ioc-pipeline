@@ -1,16 +1,14 @@
 """
 pipeline.py
 -----------
-Main pipeline runner — now with Elasticsearch integration.
+Main pipeline runner — full 6-phase phishing investigation.
 
-Full flow:
-1. Parse email
-2. Extract IOCs
-3. Check Elasticsearch for existing IOCs (avoid re-querying APIs)
-4. Enrich new IOCs via VT, AbuseIPDB, URLScan
-5. Score each IOC
-6. Push results to Elasticsearch
-7. Print investigation summary
+Phase 1: Parse email
+Phase 2: Connect to Elasticsearch
+Phase 3: Enrich IOCs via VT, AbuseIPDB, URLScan
+Phase 4: Investigation summary + ES push
+Phase 5: Generate Suricata rules
+Phase 6: Generate incident report
 """
 
 import sys
@@ -32,31 +30,27 @@ from elastic_client import (
     push_ioc, push_investigation,
     check_existing_ioc
 )
+from rule_generator import generate_rules, save_rules, deploy_to_suricata
+from report_generator import generate_report
 
 init(autoreset=True)
 
 
 def load_config(config_path: str = "../config/config.yaml") -> dict:
-    """Load configuration file."""
     try:
         with open(config_path, "r") as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        print(
-            f"{Fore.RED}[!] Config file not found: {config_path}"
-            f"{Style.RESET_ALL}"
-        )
+        print(f"{Fore.RED}[!] Config file not found: {config_path}{Style.RESET_ALL}")
         sys.exit(1)
 
 
 def run_pipeline(email_path: str, config: dict) -> dict:
-    """Run the full phishing investigation pipeline."""
 
     api_keys = config.get("api_keys", {})
     vt_key = api_keys.get("virustotal", "")
     abuse_key = api_keys.get("abuseipdb", "")
     urlscan_key = api_keys.get("urlscan", "")
-
     es_config = config.get("elasticsearch", {})
 
     investigation_id = str(uuid.uuid4())[:8].upper()
@@ -70,7 +64,8 @@ def run_pipeline(email_path: str, config: dict) -> dict:
         "scored_iocs": [],
         "malicious_iocs": [],
         "suspicious_iocs": [],
-        "summary": {}
+        "summary": {},
+        "report_path": None
     }
 
     # ─────────────────────────────────────────
@@ -118,7 +113,6 @@ def run_pipeline(email_path: str, config: dict) -> dict:
     if orig_ip:
         print(f"\n{Fore.YELLOW}[*] Enriching IP: {orig_ip}{Style.RESET_ALL}")
 
-        # Check if we already know this IOC
         existing = check_existing_ioc(es_client, orig_ip) if es_client else None
         if existing:
             print(
@@ -145,8 +139,6 @@ def run_pipeline(email_path: str, config: dict) -> dict:
                 scored = score_ioc(ip_results, flags)
                 all_scored.append(scored)
                 investigation["ioc_results"].extend(ip_results)
-
-                # Push to Elasticsearch
                 if es_client:
                     push_ioc(es_client, scored, ip_results, investigation)
 
@@ -180,7 +172,6 @@ def run_pipeline(email_path: str, config: dict) -> dict:
                 scored = score_ioc(url_results, flags)
                 all_scored.append(scored)
                 investigation["ioc_results"].extend(url_results)
-
                 if es_client:
                     push_ioc(es_client, scored, url_results, investigation)
 
@@ -193,14 +184,13 @@ def run_pipeline(email_path: str, config: dict) -> dict:
             scored = score_ioc(hash_results, flags)
             all_scored.append(scored)
             investigation["ioc_results"].extend(hash_results)
-
             if es_client:
                 push_ioc(es_client, scored, hash_results, investigation)
 
     investigation["scored_iocs"] = all_scored
 
     # ─────────────────────────────────────────
-    # PHASE 4: Final Summary + ES Push
+    # PHASE 4: Investigation Summary + ES Push
     # ─────────────────────────────────────────
     print(f"\n{Fore.CYAN}{'='*60}")
     print("PHASE 4: INVESTIGATION SUMMARY")
@@ -232,10 +222,6 @@ def run_pipeline(email_path: str, config: dict) -> dict:
         "flags": flags
     }
 
-    # Push full investigation summary to ES
-    if es_client:
-        push_investigation(es_client, investigation)
-
     print(f"\n{color}  Investigation ID : {investigation_id}")
     print(f"  Overall Verdict  : {overall}")
     print(f"  Email Subject    : {parsed['headers'].get('subject', '')}")
@@ -249,20 +235,46 @@ def run_pipeline(email_path: str, config: dict) -> dict:
     if malicious:
         print(f"\n  Malicious IOCs:")
         for ioc in malicious:
-            print(
-                f"    🔴 {ioc['ioc']} "
-                f"(score: {ioc['confidence_score']}/100)"
-            )
+            print(f"    🔴 {ioc['ioc']} (score: {ioc['confidence_score']}/100)")
 
     if suspicious:
         print(f"\n  Suspicious IOCs:")
         for ioc in suspicious:
-            print(
-                f"    🟡 {ioc['ioc']} "
-                f"(score: {ioc['confidence_score']}/100)"
-            )
+            print(f"    🟡 {ioc['ioc']} (score: {ioc['confidence_score']}/100)")
 
     print(f"{Style.RESET_ALL}")
+
+    # Push full investigation to ES after summary is built
+    if es_client:
+        push_investigation(es_client, investigation)
+
+    # ─────────────────────────────────────────
+    # PHASE 5: Generate Suricata Rules
+    # ─────────────────────────────────────────
+    print(f"\n{Fore.CYAN}{'='*60}")
+    print("PHASE 5: SURICATA RULE GENERATION")
+    print(f"{'='*60}{Style.RESET_ALL}")
+
+    rules = generate_rules(
+        all_scored,
+        investigation_id,
+        parsed.get("headers", {}).get("subject", "")
+    )
+
+    if rules:
+        rules_file = save_rules(rules, investigation_id)
+        if rules_file:
+            deploy_to_suricata(rules_file)
+
+    # ─────────────────────────────────────────
+    # PHASE 6: Generate Incident Report
+    # ─────────────────────────────────────────
+    print(f"\n{Fore.CYAN}{'='*60}")
+    print("PHASE 6: INCIDENT REPORT")
+    print(f"{'='*60}{Style.RESET_ALL}")
+
+    report_path = generate_report(investigation)
+    investigation["report_path"] = report_path
 
     return investigation
 
@@ -270,12 +282,12 @@ def run_pipeline(email_path: str, config: dict) -> dict:
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python3 pipeline.py <path_to_email.eml>")
+        print("Example: python3 pipeline.py ../samples/test-phishing-01.eml")
         sys.exit(1)
 
     config = load_config("../config/config.yaml")
     result = run_pipeline(sys.argv[1], config)
 
-    # Save raw JSON results
     ts = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     inv_id = result.get("investigation_id", "unknown")
     output_file = f"../reports/investigation-{inv_id}-{ts}.json"
@@ -283,7 +295,4 @@ if __name__ == "__main__":
     with open(output_file, "w") as f:
         json.dump(result, f, indent=2, default=str)
 
-    print(
-        f"{Fore.GREEN}[+] Full results saved to: {output_file}"
-        f"{Style.RESET_ALL}"
-    )
+    print(f"\n{Fore.GREEN}[+] Full results saved to: {output_file}{Style.RESET_ALL}")

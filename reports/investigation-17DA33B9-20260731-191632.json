@@ -1,0 +1,98 @@
+{
+  "investigation_id": "17DA33B9",
+  "timestamp": "2026-07-31T19:16:27.299158+00:00",
+  "email_file": "../samples/test-phishing-01.eml",
+  "parsed_email": {
+    "file": "../samples/test-phishing-01.eml",
+    "headers": {
+      "from": "security-alert@micros0ft-verify.com",
+      "to": "ilam@company.com",
+      "subject": "[URGENT] Your Microsoft Account Will Be Suspended in 24 Hours",
+      "date": "2026-07-13 09:23:11+00:00",
+      "reply_to": "harvester@evil-collect.com",
+      "message_id": "<fake123@micros0ft-verify.com>",
+      "x_mailer": "PhishKit/2.0"
+    },
+    "authentication": {
+      "spf": "fail",
+      "dkim": "fail",
+      "dmarc": "fail",
+      "raw": "mx.company.com;\n dkim=fail (signature verification failed);\n spf=fail (domain micros0ft-verify.com does not designate 185.220.101.45 as permitted sender);\n dmarc=fail"
+    },
+    "originating_ip": "185.220.101.45",
+    "urls": [
+      "http://micros0ft-login-verify.tk/secure/login?ref=urgent"
+    ],
+    "attachments": [],
+    "flags": [
+      "SPF_FAIL",
+      "DKIM_FAIL",
+      "DMARC_FAIL",
+      "REPLY_TO_MISMATCH",
+      "URGENCY_LANGUAGE"
+    ],
+    "raw_body": "<html>\n<body>\n<p>Dear User,</p>\n<p>We have detected suspicious activity on your Microsoft account.</p>\n<p>Please verify your account immediately to avoid suspension:</p>\n<p><a href=\"http://micros0ft-login-verify.tk/secure/login?ref=urgent\">\nClick here to verify your account\n</a></p>\n<p>If you do not verify within 24 hours your account will be permanently suspended.</p>\n<p>Microsoft Security Team</p>\n</body>\n</html>\n"
+  },
+  "ioc_results": [],
+  "scored_iocs": [
+    {
+      "ioc": "185.220.101.45",
+      "type": "ip",
+      "verdict": "MALICIOUS",
+      "confidence_score": 100,
+      "contributing_factors": [
+        "Previously investigated \u2014 cached result"
+      ],
+      "cached": true
+    },
+    {
+      "ioc": "http://micros0ft-login-verify.tk/secure/login?ref=urgent",
+      "type": "url",
+      "verdict": "SUSPICIOUS",
+      "confidence_score": 30,
+      "contributing_factors": [
+        "Previously investigated \u2014 cached result"
+      ],
+      "cached": true
+    }
+  ],
+  "malicious_iocs": [
+    {
+      "ioc": "185.220.101.45",
+      "type": "ip",
+      "verdict": "MALICIOUS",
+      "confidence_score": 100,
+      "contributing_factors": [
+        "Previously investigated \u2014 cached result"
+      ],
+      "cached": true
+    }
+  ],
+  "suspicious_iocs": [
+    {
+      "ioc": "http://micros0ft-login-verify.tk/secure/login?ref=urgent",
+      "type": "url",
+      "verdict": "SUSPICIOUS",
+      "confidence_score": 30,
+      "contributing_factors": [
+        "Previously investigated \u2014 cached result"
+      ],
+      "cached": true
+    }
+  ],
+  "summary": {
+    "overall_verdict": "MALICIOUS",
+    "total_iocs": 2,
+    "malicious_count": 1,
+    "suspicious_count": 1,
+    "clean_count": 0,
+    "flags": [
+      "SPF_FAIL",
+      "DKIM_FAIL",
+      "DMARC_FAIL",
+      "REPLY_TO_MISMATCH",
+      "URGENCY_LANGUAGE"
+    ]
+  },
+  "report_path": "../reports/IR-17DA33B9-2026-07-31.md"
+}

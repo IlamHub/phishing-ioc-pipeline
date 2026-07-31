@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : A23D2FFE
+# Generated        : 20260731-084125
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation A23D2FFE"; classtype:trojan-activity; reference:url,localhost/investigations/A23D2FFE; metadata:confidence_score 100, verdict MALICIOUS, investigation_id A23D2FFE, created 2026-07-31; sid:9000005; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation A23D2FFE"; classtype:trojan-activity; reference:url,localhost/investigations/A23D2FFE; metadata:confidence_score 100, verdict MALICIOUS, investigation_id A23D2FFE, created 2026-07-31; sid:9000006; rev:1;)

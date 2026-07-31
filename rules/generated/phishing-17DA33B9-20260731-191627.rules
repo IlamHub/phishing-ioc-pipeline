@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : 17DA33B9
+# Generated        : 20260731-191627
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation 17DA33B9"; classtype:trojan-activity; reference:url,localhost/investigations/17DA33B9; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 17DA33B9, created 2026-07-31; sid:9000009; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation 17DA33B9"; classtype:trojan-activity; reference:url,localhost/investigations/17DA33B9; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 17DA33B9, created 2026-07-31; sid:9000010; rev:1;)

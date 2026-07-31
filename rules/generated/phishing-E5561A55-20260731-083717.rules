@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : E5561A55
+# Generated        : 20260731-083717
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation E5561A55"; classtype:trojan-activity; reference:url,localhost/investigations/E5561A55; metadata:confidence_score 100, verdict MALICIOUS, investigation_id E5561A55, created 2026-07-31; sid:9000001; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation E5561A55"; classtype:trojan-activity; reference:url,localhost/investigations/E5561A55; metadata:confidence_score 100, verdict MALICIOUS, investigation_id E5561A55, created 2026-07-31; sid:9000002; rev:1;)

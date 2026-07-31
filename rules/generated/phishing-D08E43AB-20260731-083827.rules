@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : D08E43AB
+# Generated        : 20260731-083827
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation D08E43AB"; classtype:trojan-activity; reference:url,localhost/investigations/D08E43AB; metadata:confidence_score 100, verdict MALICIOUS, investigation_id D08E43AB, created 2026-07-31; sid:9000003; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation D08E43AB"; classtype:trojan-activity; reference:url,localhost/investigations/D08E43AB; metadata:confidence_score 100, verdict MALICIOUS, investigation_id D08E43AB, created 2026-07-31; sid:9000004; rev:1;)

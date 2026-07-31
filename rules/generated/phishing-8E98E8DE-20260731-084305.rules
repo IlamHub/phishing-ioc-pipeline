@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : 8E98E8DE
+# Generated        : 20260731-084305
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation 8E98E8DE"; classtype:trojan-activity; reference:url,localhost/investigations/8E98E8DE; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 8E98E8DE, created 2026-07-31; sid:9000007; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation 8E98E8DE"; classtype:trojan-activity; reference:url,localhost/investigations/8E98E8DE; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 8E98E8DE, created 2026-07-31; sid:9000008; rev:1;)
