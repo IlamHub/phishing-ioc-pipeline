@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : B5E99E7B
+# Generated        : 20260802-032439
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation B5E99E7B"; classtype:trojan-activity; reference:url,localhost/investigations/B5E99E7B; metadata:confidence_score 100, verdict MALICIOUS, investigation_id B5E99E7B, created 2026-08-02; sid:9000011; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation B5E99E7B"; classtype:trojan-activity; reference:url,localhost/investigations/B5E99E7B; metadata:confidence_score 100, verdict MALICIOUS, investigation_id B5E99E7B, created 2026-08-02; sid:9000012; rev:1;)

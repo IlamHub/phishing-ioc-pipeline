@@ -1,0 +1,138 @@
+{
+  "investigation_id": "34513AAB",
+  "timestamp": "2026-08-02T03:40:29.240990+00:00",
+  "email_file": "../samples/test-phishing-02.eml",
+  "parsed_email": {
+    "file": "../samples/test-phishing-02.eml",
+    "headers": {
+      "from": "service@paypa1-secure.com",
+      "to": "ilam@company.com",
+      "subject": "Your PayPal Account Has Been Limited",
+      "date": "2026-07-13 11:00:00+00:00",
+      "reply_to": "collect@grabber-site.ru",
+      "message_id": "<fake456@paypa1-secure.com>",
+      "x_mailer": null
+    },
+    "authentication": {
+      "spf": "fail",
+      "dkim": "none",
+      "dmarc": "fail",
+      "raw": "mx.company.com;\n dkim=none;\n spf=fail (paypa1-secure.com does not designate 45.142.212.100);\n dmarc=fail"
+    },
+    "originating_ip": "45.142.212.100",
+    "urls": [
+      "http://paypa1-verify-account.xyz/restore?token=abc123"
+    ],
+    "attachments": [],
+    "flags": [
+      "SPF_FAIL",
+      "DMARC_FAIL",
+      "REPLY_TO_MISMATCH",
+      "URGENCY_LANGUAGE"
+    ],
+    "raw_body": "<html><body>\n<p>Dear Customer,</p>\n<p>We have noticed unusual activity. Restore your account access immediately:</p>\n<p><a href=\"http://paypa1-verify-account.xyz/restore?token=abc123\">Restore Account Now</a></p>\n<p>Failure to verify within 24 hours will result in permanent suspension.</p>\n</body></html>\n"
+  },
+  "ioc_results": [
+    {
+      "ioc": "45.142.212.100",
+      "type": "ip",
+      "source": "virustotal",
+      "malicious_count": 9,
+      "suspicious_count": 1,
+      "total_engines": 91,
+      "country": "PL",
+      "as_owner": "Ivanov Vitaliy Sergeevich",
+      "verdict": "malicious"
+    },
+    {
+      "ioc": "45.142.212.100",
+      "type": "ip",
+      "source": "abuseipdb",
+      "confidence_score": 0,
+      "total_reports": 1,
+      "country": "MD",
+      "isp": "LIR Limited",
+      "domain": "lir.ae",
+      "is_tor": false,
+      "abuse_categories": [
+        "Brute-Force",
+        "SSH"
+      ],
+      "verdict": "clean"
+    },
+    {
+      "ioc": "http://paypa1-verify-account.xyz/restore?token=abc123",
+      "type": "url",
+      "source": "virustotal",
+      "malicious_count": 0,
+      "suspicious_count": 2,
+      "total_engines": 92,
+      "categories": {
+        "Forcepoint ThreatSeeker": "elevated exposure"
+      },
+      "verdict": "clean"
+    },
+    {
+      "error": "Invalid leading whitespace, reserved character(s), or return character(s) in header value: ' 019fb2dd-c4bb-7548-a922-8d442f262e9e'",
+      "ioc": "http://paypa1-verify-account.xyz/restore?token=abc123",
+      "type": "url"
+    }
+  ],
+  "scored_iocs": [
+    {
+      "ioc": "45.142.212.100",
+      "type": "ip",
+      "confidence_score": 60,
+      "verdict": "SUSPICIOUS",
+      "contributing_factors": [
+        "VT: 9 engines flagged as malicious",
+        "Email flag: SPF_FAIL",
+        "Email flag: DMARC_FAIL",
+        "Email flag: REPLY_TO_MISMATCH",
+        "Email flag: URGENCY_LANGUAGE"
+      ]
+    },
+    {
+      "ioc": "http://paypa1-verify-account.xyz/restore?token=abc123",
+      "type": "url",
+      "confidence_score": 25,
+      "verdict": "CLEAN",
+      "contributing_factors": [
+        "Email flag: SPF_FAIL",
+        "Email flag: DMARC_FAIL",
+        "Email flag: REPLY_TO_MISMATCH",
+        "Email flag: URGENCY_LANGUAGE"
+      ]
+    }
+  ],
+  "malicious_iocs": [],
+  "suspicious_iocs": [
+    {
+      "ioc": "45.142.212.100",
+      "type": "ip",
+      "confidence_score": 60,
+      "verdict": "SUSPICIOUS",
+      "contributing_factors": [
+        "VT: 9 engines flagged as malicious",
+        "Email flag: SPF_FAIL",
+        "Email flag: DMARC_FAIL",
+        "Email flag: REPLY_TO_MISMATCH",
+        "Email flag: URGENCY_LANGUAGE"
+      ]
+    }
+  ],
+  "summary": {
+    "overall_verdict": "SUSPICIOUS",
+    "total_iocs": 2,
+    "malicious_count": 0,
+    "suspicious_count": 1,
+    "clean_count": 1,
+    "flags": [
+      "SPF_FAIL",
+      "DMARC_FAIL",
+      "REPLY_TO_MISMATCH",
+      "URGENCY_LANGUAGE"
+    ]
+  },
+  "report_path": "../reports/IR-34513AAB-2026-08-02.md"
+}

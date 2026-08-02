@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : B40C147C
+# Generated        : 20260802-032641
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation B40C147C"; classtype:trojan-activity; reference:url,localhost/investigations/B40C147C; metadata:confidence_score 100, verdict MALICIOUS, investigation_id B40C147C, created 2026-08-02; sid:9000015; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation B40C147C"; classtype:trojan-activity; reference:url,localhost/investigations/B40C147C; metadata:confidence_score 100, verdict MALICIOUS, investigation_id B40C147C, created 2026-08-02; sid:9000016; rev:1;)

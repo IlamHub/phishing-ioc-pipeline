@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : 951FDAF0
+# Generated        : 20260802-032506
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation 951FDAF0"; classtype:trojan-activity; reference:url,localhost/investigations/951FDAF0; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 951FDAF0, created 2026-08-02; sid:9000013; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation 951FDAF0"; classtype:trojan-activity; reference:url,localhost/investigations/951FDAF0; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 951FDAF0, created 2026-08-02; sid:9000014; rev:1;)

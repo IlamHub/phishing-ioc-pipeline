@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : 34513AAB
+# Generated        : 20260802-034045
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 45.142.212.100 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation 34513AAB"; classtype:suspicious-login; reference:url,localhost/investigations/34513AAB; metadata:confidence_score 60, verdict SUSPICIOUS, investigation_id 34513AAB, created 2026-08-02; sid:9000019; rev:1;)
+alert ip $HOME_NET any -> 45.142.212.100 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation 34513AAB"; classtype:suspicious-login; reference:url,localhost/investigations/34513AAB; metadata:confidence_score 60, verdict SUSPICIOUS, investigation_id 34513AAB, created 2026-08-02; sid:9000020; rev:1;)

@@ -1,0 +1,9 @@
+# ================================================
+# Auto-generated Suricata rules
+# Investigation ID : 5BA61CEF
+# Generated        : 20260802-034029
+# Tool             : phishing-ioc-pipeline
+# ================================================
+
+alert ip 185.220.101.45 any -> $HOME_NET any (msg:"[PHISHING-PIPELINE] Malicious IP Inbound - Investigation 5BA61CEF"; classtype:trojan-activity; reference:url,localhost/investigations/5BA61CEF; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 5BA61CEF, created 2026-08-02; sid:9000017; rev:1;)
+alert ip $HOME_NET any -> 185.220.101.45 any (msg:"[PHISHING-PIPELINE] Malicious IP Outbound Contact - Investigation 5BA61CEF"; classtype:trojan-activity; reference:url,localhost/investigations/5BA61CEF; metadata:confidence_score 100, verdict MALICIOUS, investigation_id 5BA61CEF, created 2026-08-02; sid:9000018; rev:1;)
